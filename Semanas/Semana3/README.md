@@ -86,3 +86,10 @@ Etapa más larga del ciclo de vida.
 | **Cambio durante el proceso** | Se permite en cualquier momento       | No se permite hasta que termine el sprint  |
 | **Métricas comunes**   | Lead time, cycle time, throughput        | Velocidad del equipo (story points/sprint) |
 | **Ideal para**         | Proyectos con tareas cambiantes o soporte continuo | Proyectos con entregables definidos y planificación detallada |
+
+## Charla SIMOVI
+### Realizada por el Ing. Fabian Abarca Phd.
+Se plantea un desarrollo de una guia practica de diseño e implementacion para tomadores de decisiones y otra entidades del sector, dentro y fuera de la universidad.
+**Data Bus**: Es la plataforma para recoleccion y suministro de datos.
+**InfoBus**: Plataforma para consumo de datos y distribucion de informacion.
+
