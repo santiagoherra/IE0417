@@ -157,10 +157,10 @@ Se utilizó la herramienta **Sphinx** para generar la documentación de un repos
 
 Se clonó el repositorio *Example: Basic Sphinx project for Read the Docs*, siguiendo un flujo similar al anterior, mostrado en las figuras **20** y **21**.  
 
-![Texto alternativo](Figuras/doxygen_4.png)
+![Texto alternativo](Figuras/doxygen_3.png)
 - **Figura 20:** Creación de documentación en Sphinx
 
-![Texto alternativo](Figuras/doxygen_5.png)
+![Texto alternativo](Figuras/doxygen_4.png)
 - **Figura 21:** Archivo HTML generado por Sphinx  
 
 ---
@@ -172,7 +172,7 @@ Los archivos HTML generados fueron publicados en **Netlify**. A continuación lo
 - [Documentación Doxygen en Netlify](https://luminous-lollipop-d3ed67.netlify.app/)  
 - [Documentación Sphinx en Netlify](https://tiny-yeot-6144a4.netlify.app/)  
 
-![Texto alternativo](Figuras/doxygen_3.png)
+![Texto alternativo](Figuras/doxygen_5.png)
 - **Figura 22:** Archivo HTML generado por Doxygen en Netlify
 
 ![Texto alternativo](Figuras/doxygen_6.png)
