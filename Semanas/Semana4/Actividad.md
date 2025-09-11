@@ -82,6 +82,8 @@ Se clonó el repositorio *Math Operations: A simple C project demonstrating basi
 
 Se realizaron los ejercicios de **gitlearningbranching**, se pueden ver los ejercicios de manera secuencial en las figuras a continuación.
 
+### Ejercicios: Local
+
 
 ![Texto alternativo](Figuras/1_2.png)
 - **Figura 1:** Nivel: Brancheando en Git
@@ -136,6 +138,57 @@ Se realizaron los ejercicios de **gitlearningbranching**, se pueden ver los ejer
 
 ---
 
+### Ejercicios: Remoto
+
+![Texto alternativo](Figuras/6_1.png)
+- **Figura 18:** Nivel: Introduccion a clone
+
+![Texto alternativo](Figuras/6_2.png)
+- **Figura 19:** Nivel: Ramas remotas
+
+![Texto alternativo](Figuras/6_3.png)
+- **Figura 20:** Nivel: git fetch
+
+![Texto alternativo](Figuras/6_4.png)
+- **Figura 21:** Nivel: git pull
+
+![Texto alternativo](Figuras/6_5.png)
+- **Figura 22:** Nivel: Simulando trabajo en equipo
+
+![Texto alternativo](Figuras/6_6.png)
+- **Figura 23:** Nivel: git push
+
+![Texto alternativo](Figuras/6_7.png)
+- **Figura 24:** Nivel: Historia divergente
+
+![Texto alternativo](Figuras/6_8.png)
+- **Figura 25:** Nivel: Main bloqueado
+
+![Texto alternativo](Figuras/7_1.png)
+- **Figura 26:** Nivel: Push Main
+
+![Texto alternativo](Figuras/7_2.png)
+- **Figura 27:** Nivel: Mergeando a los remotos
+
+![Texto alternativo](Figuras/7_3.png)
+- **Figura 28:** Nivel: Trackeando remotos
+
+![Texto alternativo](Figuras/7_4.png)
+- **Figura 29:** Nivel: Parametros de git push
+
+![Texto alternativo](Figuras/7_5.png)
+- **Figura 30:** Nivel: Mas! Parametros de push
+
+![Texto alternativo](Figuras/7_6.png)
+- **Figura 31:** Nivel: Parametros de fetch
+
+
+![Texto alternativo](Figuras/7_7.png)
+- **Figura 32:** Nivel: Origen de nada
+
+![Texto alternativo](Figuras/7_8.png)
+- **Figura 33:** Nivel: Parametros de pull
+
 ## Documentación con Doxygen
 
 Se utilizó la herramienta **Doxygen** para generar un archivo HTML de un programa previamente documentado en Doxygen.  
@@ -144,10 +197,10 @@ Se clonó el repositorio *Math Operations: A simple C project demonstrating basi
 
 
 ![Texto alternativo](Figuras/doxygen_1.png)
-- **Figura 18:** Creación de documentación en Doxygen
+- **Figura 34:** Creación de documentación en Doxygen
 
 ![Texto alternativo](Figuras/doxygen_2.png)
-- **Figura 19:** Archivo HTML generado por Doxygen  
+- **Figura 35:** Archivo HTML generado por Doxygen  
 
 ---
 
@@ -158,10 +211,10 @@ Se utilizó la herramienta **Sphinx** para generar la documentación de un repos
 Se clonó el repositorio *Example: Basic Sphinx project for Read the Docs*, siguiendo un flujo similar al anterior, mostrado en las figuras **20** y **21**.  
 
 ![Texto alternativo](Figuras/doxygen_3.png)
-- **Figura 20:** Creación de documentación en Sphinx
+- **Figura 36:** Creación de documentación en Sphinx
 
 ![Texto alternativo](Figuras/doxygen_4.png)
-- **Figura 21:** Archivo HTML generado por Sphinx  
+- **Figura 37:** Archivo HTML generado por Sphinx  
 
 ---
 
@@ -173,7 +226,7 @@ Los archivos HTML generados fueron publicados en **Netlify**. A continuación lo
 - [Documentación Sphinx en Netlify](https://tiny-yeot-6144a4.netlify.app/)  
 
 ![Texto alternativo](Figuras/doxygen_5.png)
-- **Figura 22:** Archivo HTML generado por Doxygen en Netlify
+- **Figura 38:** Archivo HTML generado por Doxygen en Netlify
 
 ![Texto alternativo](Figuras/doxygen_6.png)
-- **Figura 23:** Archivo HTML generado por Sphinx en Netlify
+- **Figura 39:** Archivo HTML generado por Sphinx en Netlify
