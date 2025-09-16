@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Lista de tareas — HTML + CSS + JS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* ====== Estilos (reutilizamos ideas de la versión 2) ====== */
+    :root { --bg:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22c55e; --danger:#ef4444; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, sans-serif;
+      color: var(--text); background: radial-gradient(1200px 800px at 20% -10%, #1f2937 0%, var(--bg) 60%);
+      min-height: 100svh; display: grid; place-items: center; padding: 2rem;
+    }
+    .app {
+      width: 100%; max-width: 720px; background: var(--card); border: 1px solid #1f2937; border-radius: 16px;
+      padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    header h1 { margin: 0; font-size: 1.6rem; }
+    header p { margin: .25rem 0 .5rem; color: var(--muted); font-size: .95rem; }
+
+    .input-row { display: grid; grid-template-columns: 1fr auto; gap: .75rem; margin-top: 1rem; }
+    input[type="text"] {
+      width: 100%; padding: .8rem .9rem; border-radius: 10px; border: 1px solid #374151; background:#0b1220; color: var(--text);
+    }
+    button {
+      padding: .8rem 1rem; border: 1px solid #2b5d3a; background: #113c27; color: #c6f6d5;
+      border-radius: 10px; cursor: pointer;
+    }
+    button:disabled { cursor: not-allowed; opacity: .6; }
+
+    h2 { font-size: 1.1rem; margin: 1.2rem 0 .5rem; color: var(--muted); letter-spacing: .02em; }
+    ul { list-style: none; padding: 0; margin: .25rem 0 0; display: grid; gap: .5rem; }
+    li {
+      display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .75rem;
+      padding: .75rem .85rem; background: #0b1220; border: 1px solid #1f2937; border-radius: 12px;
+      transition: transform .12s ease, background .12s ease;
+    }
+    li:hover { transform: translateY(-1px); background: #0d1729; }
+    li.completed .task { text-decoration: line-through; color: #64748b; }
+    li input[type="checkbox"] { accent-color: var(--accent); }
+    .task { line-height: 1.25; }
+    .pill {
+      font-size: .72rem; padding: .2rem .5rem; border-radius: 999px; border:1px solid #374151; color: var(--muted);
+    }
+    .pill.done { color:#a7f3d0; border-color:#1f3c2a; background:#0f2c1f; }
+    .danger {
+      border-color: #5d2b2b; background:#3b0f0f; color:#fecaca; margin-left:.35rem;
+    }
+    .row-actions { display:flex; align-items:center; }
+    .empty {
+      margin-top: .75rem; color: var(--muted); font-style: italic; font-size: .95rem;
+    }
+    footer { margin-top: 1rem; text-align: center; color: var(--muted); font-size: .85rem; }
+    @media (max-width: 520px) {
+      .app { padding: 1rem; }
+      .input-row { grid-template-columns: 1fr; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" role="application" aria-label="Lista de tareas">
+    <header>
+      <h1>Lista de tareas</h1>
+      <p>Versión 3: HTML + CSS + <strong>JavaScript</strong> (agregar, completar, eliminar y persistir en <code>localStorage</code>).</p>
+      <form id="form" class="input-row" role="group" aria-label="Agregar tarea" autocomplete="off">
+        <label class="sr-only" for="tarea">Nueva tarea</label>
+        <input id="tarea" name="tarea" type="text" placeholder="Escribe una tarea..." aria-label="Nueva tarea" required />
+        <button id="add" type="submit" title="Agregar tarea">Agregar</button>
+      </form>
+    </header>
+
+    <section aria-labelledby="titulo-lista">
+      <h2 id="titulo-lista">Mis tareas</h2>
+      <ul id="lista" aria-live="polite" aria-relevant="additions removals"></ul>
+      <p id="empty" class="empty" hidden>No hay tareas. ¡Agrega la primera! 🎉</p>
+    </section>
+
+    <footer>
+      <small>HTML + CSS + JS — con almacenamiento local</small>
+    </footer>
+  </main>
+
+  <script>
+    // ====== LÓGICA (comportamiento) ======
+    const form  = document.getElementById('form');
+    const input = document.getElementById('tarea');
+    const list  = document.getElementById('lista');
+    const empty = document.getElementById('empty');
+
+    // Estado: arreglo de tareas { id, text, done }
+    let tasks = [];
+
+    // Cargar desde localStorage al iniciar
+    const saved = localStorage.getItem('tasks-demo');
+    if (saved) {
+      try { tasks = JSON.parse(saved); } catch {}
+    }
+    render();
+
+    // Agregar tarea
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      tasks.push({ id: crypto.randomUUID(), text, done: false });
+      input.value = '';
+      persistAndRender();
+    });
+
+    // Delegación de eventos para completar / eliminar
+    list.addEventListener('click', (e) => {
+      const li = e.target.closest('li[data-id]');
+      if (!li) return;
+      const id = li.dataset.id;
+
+      if (e.target.matches('input[type="checkbox"]')) {
+        toggleDone(id);
+      } else if (e.target.matches('.btn-delete')) {
+        removeTask(id);
+      }
+    });
+
+    function toggleDone(id) {
+      tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+      persistAndRender();
+    }
+
+    function removeTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      persistAndRender();
+    }
+
+    function persistAndRender() {
+      localStorage.setItem('tasks-demo', JSON.stringify(tasks));
+      render();
+    }
+
+    function render() {
+      list.innerHTML = '';
+      if (tasks.length === 0) {
+        empty.hidden = false;
+        return;
+      }
+      empty.hidden = true;
+
+      const frag = document.createDocumentFragment();
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.dataset.id = task.id;
+        if (task.done) li.classList.add('completed');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.done;
+        checkbox.setAttribute('aria-label', task.done ? 'Marcar como pendiente' : 'Marcar como completada');
+
+        const text = document.createElement('span');
+        text.className = 'task';
+        text.textContent = task.text;
+
+        const pill = document.createElement('span');
+        pill.className = 'pill' + (task.done ? ' done' : '');
+        pill.textContent = task.done ? 'hecha' : 'pendiente';
+
+        const actions = document.createElement('div');
+        actions.className = 'row-actions';
+
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'danger btn-delete';
+        del.textContent = 'Eliminar';
+        del.setAttribute('aria-label', `Eliminar: ${task.text}`);
+
+        actions.appendChild(pill);
+        actions.appendChild(del);
+
+        li.appendChild(checkbox);
+        li.appendChild(text);
+        li.appendChild(actions);
+        frag.appendChild(li);
+      });
+      list.appendChild(frag);
+    }
+  </script>
+</body>
+</html>

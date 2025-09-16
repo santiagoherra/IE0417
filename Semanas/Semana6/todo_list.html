@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Lista de tareas — Solo HTML</title>
+</head>
+<body>
+  <header>
+    <h1>Lista de tareas</h1>
+    <p>Versión 1: solo HTML (estructura estática, sin estilos ni interacción).</p>
+  </header>
+
+  <main>
+    <section aria-labelledby="lista-tareas">
+      <h2 id="lista-tareas">Mis tareas</h2>
+
+      <!-- En esta versión la lista es fija -->
+      <ul>
+        <li><input type="checkbox" disabled> Comprar leche</li>
+        <li><input type="checkbox" disabled> Enviar correo a María</li>
+        <li><input type="checkbox" disabled> Estudiar 30 minutos</li>
+      </ul>
+
+      <!-- Formulario sin funcionalidad (todavía) -->
+      <h3>Agregar tarea</h3>
+      <form>
+        <label for="tarea">Nueva tarea</label>
+        <input id="tarea" name="tarea" type="text" placeholder="Escribe una tarea..." />
+        <button type="button">Agregar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <small>Demo HTML — sin CSS ni JS</small>
+  </footer>
+</body>
+</html>
