@@ -1,7 +1,7 @@
 # Investigación sobre Frontend
 Estudiantes: 
 - Luis Soto
-- Santiago Herra 
+- Santiago Herra
 - Josué M. Jiménez Ramírez
 
 
@@ -122,13 +122,21 @@ Aquí algunos ejemplos de sitios/apps reales que usan React, Angular o Vue:
 ---
 ## 3. Backend
 
-El backend se encarga de recibir, procesar, almacenar y enviar datos de manera confiable y eficiente (idealmente), implementando  las reglas del negocio que definen el comportamiento de la aplicación. 
+El backend se encarga de recibir, procesar, almacenar y enviar datos de manera confiable y eficiente (idealmente), implementando  las reglas del negocio que definen el comportamiento de la aplicación. Es importante destacar que el código relacionado al backend se ejecuta en un servidor remoto mientras que el código relacionado al front end usualmente se ejecuta en el buscador del usuario.
 
 Para desarrollar el back-end se requiere de hacer uso de diversos lenguajes de programación como Python, PHP, Javascript (por medio de Node Js), Ruby, Java, C# en conjunto con frameworks especializados en desarrollo web, los cuales se encargan de brindar estructuras y componentes para funciones del servidor, lo que permite seguridad, escalabilidad y la posibilidad de mantener más fácilemente las aplicaciones web. 
 
 Es importante destacar que no existe un lenguaje de programación superior a los demás, el uso del lenguaje depende del caso de uso, la experiencia del equipo y los requerimientos del sistema. 
 
 Además, cada lenguaje debe de ser acompañado por frameworks que permitan el desarrollo web utilizando el lenguaje.
+
+Estos frameworks en la mayoría de ocasiones fuerzan al programador a estructurar su código de manera particular para que los métodos del framework sean ejecutados correctamente. 
+
+Un ejemplo de lo anterior es la estructura MVC (model-view-controller), en donde el usuario realiza una solicitud que es procesada por el controlador, este le solicita al modelo información, el modelo se la brinda y el controlador envía esta información a la vista la cual despliega lo correspondiente al usuario.
+
+En estos sistemas se pueden utilizar bases de datos relacionales o no relacionales. El uso de estas depende del caso de uso. Una base de datos relacional funciona para datos en los que se conoce la estructura, y en donde los datos tienen una alta relación entre sí. Estas bases de datos escalan de forma vertical, es decir, que consumen más recursos de un servidor central para funcionar. 
+
+Por otro lado, una base de datos no relacional se utiliza cuando se requiere almacenar información la cual puede ser distribuida a lo largo de diversos servidores (escalamiento horizontal), en donde los datos no necesariamente presentan una estructura definida como lo es un post en una red social, en donde el contenido de estos puede variar entre publicaciones.
 
 ### Javascript
 Para utilizar Javascript en backend se requiere hacer uso de Node.js, el cual es un entorno de ejecución que permite ejecutar código de Javascript fuera del navegador. Es asincrónico y no bloqueante.
@@ -373,7 +381,7 @@ Son normalmente solicitados en puestos de trabajo relacionados a start-ups debid
 Una persona que realice desarrollo de full-stack se puede encargar de generar cambios en la interfaz gráfica y asegurarse que se integre de manera correcta con el servidor.
 Muchas agencias de consultoría utilizan full stack ya que deben poder brindar apoyo a miembros del equipo en front-end y back-end.
 En compañías grandes suele no ser tan común el uso de full-stack ya que se buscan personas especializadas en diversos sectores del desarrollo web. 
-
+Además, en su normalidad se tiene un servicio de back-end que maneja diversos servicios de front-end, los cuales pueden estar escritos en diferentes lenguajes y frameworks para servicios web, smart TV, Android, iOS, etc.
 
 
 ## 7. Actividad sugerida: Comparacion de tecnologias
@@ -443,9 +451,6 @@ En compañías grandes suele no ser tan común el uso de full-stack ya que se bu
 
 [32] Wales, M. (2020, 8 de diciembre). 3 Web Dev Careers Decoded: Front-End vs Back-End vs Full Stack. Udacity. Disponible en https://www.udacity.com/blog/2020/12/front-end-vs-back-end-vs-full-stack-web-developers.html
 
-[9] Wikipedia, "CSS," [En línea]. Disponible: https://es.wikipedia.org/wiki/CSS
-
-[10] Wikipedia, "HTML," Living Standard, WHATWG. [En línea]. Disponible: https://html.spec.whatwg.org/
 
 
 
