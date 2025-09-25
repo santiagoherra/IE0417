@@ -148,18 +148,14 @@ Aquí algunos ejemplos de sitios/apps reales que usan React, Angular o Vue:
 
 [8] Tadabase, "HTML, CSS, & JavaScript Explained with Analogies," *Tadabase Blog*, 12-Nov-2024. [En línea]. Disponible: https://tadabase.io/blog/html-css-javascript-explained
 
-[9] Wikipedia, "CSS," [En línea]. Disponible: https://es.wikipedia.org/wiki/CSS
+[9] Asynclabs, “Vanilla JavaScript vs React: Choosing the Right Tool for Web Development,” 5-Sep-2023. [En línea]. Disponible: https://www.asynclabs.co/blog/software-development/vanilla-javascript-vs-react-choosing-the-right-tool-for-web-development
 
-[10] Wikipedia, "HTML," Living Standard, WHATWG. [En línea]. Disponible: https://html.spec.whatwg.org/
+[11] Pulsion, “React vs. JavaScript: Which Framework Suits Your Mobile ...,” 10-Jul-2024. [En línea]. Disponible: https://www.pulsion.co.uk/blog/react-vs-javascript/
 
-[11] Asynclabs, “Vanilla JavaScript vs React: Choosing the Right Tool for Web Development,” 5-Sep-2023. [En línea]. Disponible: https://www.asynclabs.co/blog/software-development/vanilla-javascript-vs-react-choosing-the-right-tool-for-web-development
+[12] Monterail, “Top 15 Inspiring Companies Using Vue.js in 2024,” 13-Dec-2024. [En línea]. Disponible: https://www.monterail.com/blog/top-companies-using-vue-js
 
-[12] Pulsion, “React vs. JavaScript: Which Framework Suits Your Mobile ...,” 10-Jul-2024. [En línea]. Disponible: https://www.pulsion.co.uk/blog/react-vs-javascript/
+[13] Trio.dev, “Top 15 Real-World Websites Using Vue.js in 2025,” 2-May-2025. [En línea]. Disponible: https://trio.dev/websites-using-vue/
 
-[13] Monterail, “Top 15 Inspiring Companies Using Vue.js in 2024,” 13-Dec-2024. [En línea]. Disponible: https://www.monterail.com/blog/top-companies-using-vue-js
+[14] Pangea.ai, “Biggest Companies Keeping Angular Popular,” 18-Nov-2024. [En línea]. Disponible: https://pangea.ai/resources/biggest-companies-keeping-angular-popular
 
-[14] Trio.dev, “Top 15 Real-World Websites Using Vue.js in 2025,” 2-May-2025. [En línea]. Disponible: https://trio.dev/websites-using-vue/
-
-[15] Pangea.ai, “Biggest Companies Keeping Angular Popular,” 18-Nov-2024. [En línea]. Disponible: https://pangea.ai/resources/biggest-companies-keeping-angular-popular
-
-[16] Computools, “Examples of Global Websites Using Vue.js,” [En línea]. Disponible: https://computools.com/global-websites-using-vue-js
+[15] Computools, “Examples of Global Websites Using Vue.js,” [En línea]. Disponible: https://computools.com/global-websites-using-vue-js
