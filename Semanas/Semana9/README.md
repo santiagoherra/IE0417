@@ -140,7 +140,7 @@ docker run --rm -p 5001:5000 -e SALUDO="Hola desde ejecución" capas-flask:1.1
 ```
 
 **Qué hace:**
-- `-e SALUDO=...`: define una variable de entorno dentro del contenedor.
+- `-e SALUDO=...`: define una variable de entorno dentro del contenedor. Esto tambien se puede hacer con archivos.
 
 **Efecto:** la aplicación Flask toma el valor de la variable y muestra un mensaje distinto.
 
