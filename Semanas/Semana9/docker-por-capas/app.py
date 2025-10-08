@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    saludo = os.getenv("SALUDO", "Hola, clase IE0417")
+    saludo = os.getenv("SALUDO", "Hola, cambios en ")
     return jsonify({"ok": True, "mensaje": saludo})
 
 if __name__ == "__main__":
