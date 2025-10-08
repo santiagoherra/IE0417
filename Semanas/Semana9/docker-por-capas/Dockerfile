@@ -5,5 +5,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py .
 ENV SALUDO="Hola desde la imagen"
 EXPOSE 5000
-HEALTHCHECK CMD curl -f http://localhost:5000 || exit 1
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 CMD \
+  python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/', timeout=2)"
 CMD ["python", "app.py"]
