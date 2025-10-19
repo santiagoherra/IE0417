@@ -5,8 +5,6 @@ Santiago Herra Castro - Prof. Esteban Badilla - Curso: Diseño de Software
 
 El programa crea cuatro hilos que ejecutan una misma función llamada tarea. Cada hilo recibe un número identificador y ejecuta un bucle que imprime su id junto con el número de iteración actual. Entre cada impresión, el hilo se detiene durante 200 milisegundos mediante la función sleep_for, lo que simula una pausa o trabajo en progreso. Mientras tanto, los otros hilos pueden ejecutarse en paralelo. El hilo principal crea los cuatro hilos y luego llama a join en cada uno para asegurarse de que todos terminen antes de imprimir el mensaje de finalización. La salida generada refleja la ejecución concurrente de los hilos.
 
-![resultado de la ejecución](./salida_ejecucion.png)
-
 ### Patrón de ejecución observado
 
 El patrón observado en la salida es intercalado y no determinista. Esto significa que las líneas impresas por los diferentes hilos aparecen mezcladas y el orden puede variar cada vez que se ejecuta el programa. Esta variabilidad ocurre porque el sistema operativo decide qué hilo ejecutar en cada instante, distribuyendo el tiempo de CPU entre ellos. La llamada a sleep introduce pausas uniformes dentro de cada hilo, pero no sincroniza los hilos entre sí. La única secuencia garantizada es que el mensaje final de ejecución aparece al final, cuando todos los hilos han completado su trabajo.
