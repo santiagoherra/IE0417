@@ -1,0 +1,26 @@
+Ejecutando con 1 productores y 1 consumidores
+DuraciÃ³n: 0.47 segundos
+-------------------------------------------------------------
+Ejecutando con 1 productores y 2 consumidores
+DuraciÃ³n: 0.26 segundos
+-------------------------------------------------------------
+Ejecutando con 1 productores y 4 consumidores
+DuraciÃ³n: 0.26 segundos
+-------------------------------------------------------------
+Ejecutando con 2 productores y 1 consumidores
+DuraciÃ³n: 0.46 segundos
+-------------------------------------------------------------
+Ejecutando con 2 productores y 2 consumidores
+DuraciÃ³n: 0.25 segundos
+-------------------------------------------------------------
+Ejecutando con 2 productores y 4 consumidores
+DuraciÃ³n: 0.25 segundos
+-------------------------------------------------------------
+Ejecutando con 4 productores y 1 consumidores
+DuraciÃ³n: 0.88 segundos
+-------------------------------------------------------------
+Ejecutando con 4 productores y 2 consumidores
+DuraciÃ³n: 0.45 segundos
+-------------------------------------------------------------
+Ejecutando con 4 productores y 4 consumidores
+DuraciÃ³n: 0.25 segundos

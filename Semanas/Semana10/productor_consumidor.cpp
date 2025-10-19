@@ -18,7 +18,7 @@ void productor(int id, int n_tareas) {
 
         int tarea = i + id * 100;
         buffer.push(tarea);
-        std::cout << "[Productor " << id << "] generó tarea " << tarea << std::endl;
+        std::cout << "[Productor " << id << "] genero tarea " << tarea << std::endl;
 
         lock.unlock();
         cv_consumidor.notify_all();
@@ -35,7 +35,7 @@ void consumidor(int id) {
 
         int tarea = buffer.front();
         buffer.pop();
-        std::cout << "[Consumidor " << id << "] procesó tarea " << tarea << std::endl;
+        std::cout << "[Consumidor " << id << "] proceso tarea " << tarea << std::endl;
 
         lock.unlock();
         cv_productor.notify_all();
@@ -43,13 +43,22 @@ void consumidor(int id) {
     }
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    if (argc != 4) {
+        std::cerr << "Uso: " << argv[0] << " <num_productores> <num_consumidores> <tareas_por_productor>\n";
+        return 1;
+    }
+
+    int num_productores = std::stoi(argv[1]);
+    int num_consumidores = std::stoi(argv[2]);
+    int tareas_por_productor = std::stoi(argv[3]);
+
     std::vector<std::thread> productores, consumidores;
 
-    for (int i = 0; i < 3; ++i)
-        productores.emplace_back(productor, i, 5);
+    for (int i = 0; i < num_productores; ++i)
+        productores.emplace_back(productor, i, tareas_por_productor);
 
-    for (int i = 0; i < 2; ++i)
+    for (int i = 0; i < num_consumidores; ++i)
         consumidores.emplace_back(consumidor, i);
 
     for (auto &p : productores) p.join();

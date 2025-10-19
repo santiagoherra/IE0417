@@ -60,3 +60,51 @@ De esta forma:
 Se realizo el programa pool_conections.cpp para poder emplear el uso de semaforos y barreras, donde los hilos son manejados por un semaforos en un vector hasta llegar a una barrera donde todos esperan hasta que lleguen todos. En el comando de compilacion se le debe agregar como bandera -std=c++20 -pthreads, para especificar la version del compilador.
 
 
+### Experimento de rendimiento
+Se creo un script en powershell para poder registrar el tiempo de ejecucion de la tarea realizada en **productor_consumidor.cpp** aumenta la cantidad de consumidores para un mismo valor de productores y tareas. Se graficaron los graficos como se puede en la siguiente figura:
+
+![Grafico: Tiempo de ejecucion en funcion de la cantidad de hilos](t_vs_hilos.png)
+
+Se puede ver que el rendimiento no escala linearmente, esto es gracias, gracias que existe recursos limitados para la cantidad de hilos que pueden estar en ejecucion y que pueden resolver en este caso las tareas, aumentar el numero de hilos genera en este caso una especie de cola.
+
+
+## Analisis conceptual
+### 1. Diferencia entre paralelismo y concurrencia según los resultados experimentales
+
+La concurrencia se refiere a la ejecución de múltiples tareas que progresan de manera intercalada, compartiendo recursos del sistema operativo, mientras que el paralelismo implica que las tareas se ejecutan realmente al mismo tiempo en diferentes núcleos del procesador.  
+En las pruebas realizadas, la concurrencia se observó en programas que alternaban la ejecución de hilos (por ejemplo, productor-consumidor), mientras que el paralelismo fue evidente cuando varios hilos pudieron operar simultáneamente sobre distintos recursos sin interferirse, aprovechando múltiples núcleos.
+
+### 2. Ventajas y desventajas al aumentar el número de hilos
+
+**Ventajas**
+- Mejora del rendimiento cuando las tareas son independientes y el hardware tiene varios núcleos disponibles.  
+- Mejor aprovechamiento del tiempo de CPU, especialmente en operaciones de entrada/salida.  
+
+**Desventajas**
+- Mayor sobrecarga por la creación y administración de hilos.  
+- Incremento de la competencia por recursos compartidos, lo que puede generar bloqueos o esperas.  
+- Riesgo de condiciones de carrera si no se sincronizan correctamente las operaciones.  
+
+### 3. Mecanismos necesarios para evitar condiciones de carrera
+
+Se utilizaron mecanismos de sincronización como `std::mutex`, `std::lock_guard`, `std::unique_lock`, `std::condition_variable`, y en versiones más recientes `std::counting_semaphore` y `std::barrier`.  
+Estos mecanismos garantizan que solo un hilo acceda a un recurso compartido a la vez o que todos los hilos lleguen a un punto de sincronización antes de continuar. Sin ellos, se producirían inconsistencias en los datos y resultados impredecibles.
+
+### 4. Impacto de los mecanismos de sincronización en el rendimiento
+
+La sincronización introduce esperas y bloqueos que reducen el paralelismo efectivo.  
+Aunque garantizan la corrección de los datos, también añaden latencia porque los hilos deben esperar su turno para acceder a los recursos protegidos.  
+El resultado es una compensación entre seguridad y rendimiento: más sincronización implica mayor estabilidad pero menor velocidad global.
+
+### 5. Aprendizaje sobre el costo de crear y administrar hilos
+
+Crear y mantener hilos tiene un costo en memoria y tiempo de planificación.  
+El sistema operativo debe asignar pilas, contextos y tiempos de CPU para cada hilo.  
+En programas con muchos hilos pequeños, la sobrecarga puede ser mayor que el beneficio, especialmente si las tareas no son lo suficientemente largas o independientes.  
+Por eso, un número excesivo de hilos puede degradar el rendimiento en lugar de mejorarlo.
+
+### 6. Optimización del balance entre granularidad y rendimiento
+
+Para optimizar el equilibrio entre granularidad y rendimiento, es necesario ajustar el tamaño de las tareas a la cantidad de trabajo que justifique el costo de administrar los hilos.  
+Las tareas deben ser lo suficientemente grandes para amortizar la creación del hilo, pero no tan grandes como para bloquear a otros hilos.  
+El uso de mecanismos como pools de hilos o semáforos ayuda a mantener este equilibrio, reutilizando hilos activos y evitando la sobrecarga innecesaria.
