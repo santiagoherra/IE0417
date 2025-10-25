@@ -130,25 +130,23 @@ En cambio, std::mutex bloquea completamente una sección crítica hasta que el h
 
 | **Característica** | **`std::atomic`** | **`std::mutex`** |
 |----------------------|-------------------|------------------|
-| **Tipo de sincronización** | No bloqueante (*lock-free* en la mayoría de los casos) | Bloqueante (requiere adquirir y liberar el candado) |
-| **Costo de ejecución** | Bajo (usa instrucciones atómicas del CPU) | Alto (implica cambio de contexto entre hilos) |
-| **Uso recomendado** | Operaciones simples sobre variables individuales (contadores, flags, punteros) | Secciones críticas más grandes o estructuras de datos complejas |
-| **Riesgo de *deadlock*** | Ninguno | Posible si no se libera correctamente el bloqueo |
-| **Rendimiento** | Alto, ideal para tareas concurrentes ligeras | Medio o bajo, depende del número de hilos y bloqueos |
-| **Complejidad de uso** | Sencillo para operaciones básicas | Mayor complejidad, requiere cuidado con los bloqueos |
-| **Ejemplo típico** | `std::atomic<int> counter{0}; counter++;` | `std::mutex mtx; std::lock_guard<std::mutex> lock(mtx); counter++;` |
+| Tipo de sincronización | No bloqueante (*lock-free* en la mayoría de los casos) | Bloqueante (requiere adquirir y liberar el candado) |
+| Costo de ejecución | Bajo (usa instrucciones atómicas del CPU) | Alto (implica cambio de contexto entre hilos) |
+| Uso recomendado | Operaciones simples sobre variables individuales (contadores, flags, punteros) | Secciones críticas más grandes o estructuras de datos complejas |
+| Riesgo de deadlock | Ninguno | Posible si no se libera correctamente el bloqueo |
+| Rendimiento | Alto, ideal para tareas concurrentes ligeras | Medio o bajo, depende del número de hilos y bloqueos |
+| Complejidad de uso | Sencillo para operaciones básicas | Mayor complejidad, requiere cuidado con los bloqueos |
+| Ejemplo típico | `std::atomic<int> counter{0}; counter++;` | `std::mutex mtx; std::lock_guard<std::mutex> lock(mtx); counter++;` |
 
 
-# 🧩 Preguntas sobre depuración de programas
-
----
+## Preguntas sobre depuración de programas
 
 ### 1. ¿Qué diferencias existen entre un error de ejecución y un error lógico?
 
 | **Tipo de error**     | **Descripción**                                                                 | **Ejemplo**                                      |
 |-----------------------|----------------------------------------------------------------------------------|--------------------------------------------------|
-| **Ejecución (runtime)** | Ocurre durante la ejecución y suele **detener** el programa o producir fallos (accesos inválidos a memoria, división por cero, punteros nulos). | Acceder a `arr[10]` cuando `arr` tiene 5 elementos. |
-| **Lógico**            | El programa **corre**, pero entrega **resultados incorrectos** por errores de cálculo o de diseño. | Calcular un promedio dividiendo por el total equivocado. |
+| Ejecución (runtime) | Ocurre durante la ejecución y suele detener el programa o producir fallos (accesos inválidos a memoria, división por cero, punteros nulos). | Acceder a `arr[10]` cuando `arr` tiene 5 elementos. |
+| Lógico            | El programa corre, pero entrega resultados incorrectos por errores de cálculo o de diseño. | Calcular un promedio dividiendo por el total equivocado. |
 
 **Resumen:** los de ejecución impiden el funcionamiento normal; los lógicos permiten ejecutar, pero con resultados erróneos.
 
@@ -158,10 +156,10 @@ En cambio, std::mutex bloquea completamente una sección crítica hasta que el h
 
 | **Aspecto**     | **AddressSanitizer (ASan)**                                      | **Valgrind (Memcheck)**                       |
 |-----------------|-------------------------------------------------------------------|-----------------------------------------------|
-| **Rendimiento** | Penalización moderada (~2–3× más lento que native).              | Penalización alta (hasta ~20–50×).            |
-| **Uso**         | Se activa al compilar: `-fsanitize=address`.                      | Se ejecuta con Valgrind: `valgrind ./prog`.   |
-| **Cobertura**   | Overflows de heap/stack/global, use-after-free, red zones, etc.   | Errores de memoria y fugas muy exhaustivo.    |
-| **Integración** | Ideal para CI/CD y depuración rápida en desarrollo.               | Ideal para análisis profundo puntuales.       |
+| Rendimiento | Penalización moderada (~2–3× más lento que native).              | Penalización alta (hasta ~20–50×).            |
+| Uso         | Se activa al compilar: `-fsanitize=address`.                      | Se ejecuta con Valgrind: `valgrind ./prog`.   |
+| Cobertura   | Overflows de heap/stack/global, use-after-free, red zones, etc.   | Errores de memoria y fugas muy exhaustivo.    |
+| Integración | Ideal para CI/CD y depuración rápida en desarrollo.               | Ideal para análisis profundo puntuales.       |
 
 **Conclusión:** ASan es más rápido y fácil de integrar en el día a día; Valgrind es más exhaustivo pero mucho más lento.
 
@@ -181,8 +179,8 @@ Las herramientas instrumentan accesos a memoria y sincronización, añaden compr
 
 ### 4. ¿Por qué se recomienda compilar con `-O0` durante la depuración?
 
-- Desactiva optimizaciones del compilador → el binario **se parece** más al código fuente.
-- Facilita el **paso a paso** y el mapeo línea–instrucción.
+- Desactiva optimizaciones del compilador entonces el binario se parece más al código fuente.
+- Facilita el paso a paso y el mapeo línea–instrucción.
 - Evita reordenamientos/eliminaciones de variables que confunden el depurado.
 
 **Resumen:** `-O0` hace la depuración más predecible y precisa.
@@ -191,9 +189,9 @@ Las herramientas instrumentan accesos a memoria y sincronización, añaden compr
 
 ### 5. ¿Qué se aprende sobre la importancia de diagnosticar errores antes de liberar un programa?
 
-- Aumenta **estabilidad, seguridad y confiabilidad** del software.
-- Detecta **fugas de memoria, data races y fallos lógicos** antes de que afecten a usuarios.
-- Reduce **costes** de soporte y mantenimiento.
-- Fomenta buenas prácticas de **pruebas, validación y documentación**.
+- Aumenta estabilidad, seguridad y confiabilidad del software.
+- Detecta fugas de memoria, data races y fallos lógicos antes de que afecten a usuarios.
+- Reduce costes de soporte y mantenimiento.
+- Fomenta buenas prácticas de pruebas, validación y documentación.
 
 **Conclusión:** depurar con ASan/TSan/Valgrind antes de liberar es esencial para entregar software robusto y seguro.
