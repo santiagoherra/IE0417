@@ -28,11 +28,11 @@ Comandos típicos y su aplicación breve:
 
 A continuación, respuestas basadas en el código que suma un vector y luego accede a datos.at(4) con un vector de tamaño 4.
 
-1) ¿Qué tipo de error genera el fallo de ejecución?
+### 1. ¿Qué tipo de error genera el fallo de ejecución?
 
 El acceso datos.at(4) provoca una excepción de tiempo de ejecución del tipo std::out_of_range. Si no es capturada, el programa terminará con una señal SIGABRT por excepción no manejada.
 
-2) ¿Qué comando permite identificar la línea exacta donde ocurre el fallo?
+### 2. ¿Qué comando permite identificar la línea exacta donde ocurre el fallo?
 
 Tras ejecutar con gdb y reproducir el fallo:
 
@@ -49,8 +49,91 @@ Secuencia típica:
 (gdb) where              # o: bt
 (gdb) list
 
-3) ¿Qué diferencia existe entre los comandos next y step en gdb?
+### 3. ¿Qué diferencia existe entre los comandos next y step en gdb?
 
-next (n) ejecuta la siguiente línea de código y salta por encima de las llamadas a funciones, deteniéndose en la siguiente línea del llamador.
+Next (n) ejecuta la siguiente línea de código y salta por encima de las llamadas a funciones, deteniéndose en la siguiente línea del llamador . Mientras que step (s) ejecuta la siguiente línea y, si hay una llamada a función, entra en esa función y se detiene en su primera línea.
 
-step (s) ejecuta la siguiente línea y, si hay una llamada a función, entra en esa función y se detiene en su primera línea.
+
+
+En C/C++ es común cometer errores de memoria (desbordes, dobles liberaciones, fugas, etc.). Para detectarlos existen dos enfoques populares:
+
+ - sanitizers (instrumentación en tiempo de compilación/enlace que inserta comprobaciones en el binario)
+
+- Valgrind/Memcheck (instrumentación dinámica que emula/ensancha la ejecución del binario sin recompilar con flags especiales).
+
+Ambas herramientas ayudan a localizar fallos con trazas y contexto, pero no deben usarse a la vez sobre el mismo binario.
+
+**¿Qué hace cada sanitizer y Valgrind?**
+AddressSanitizer (ASan): detecta lecturas/escrituras fuera de rango en heap/stack/globales, use-after-free/use-after-scope, double free, etc. Suele reportar la línea exacta y un mapa de memoria sombra.
+
+- LeakSanitizer (LSan): detecta fugas de memoria (bloques asignados no liberados al finalizar el proceso). En muchas plataformas viene integrado con ASan.
+
+- UndefinedBehaviorSanitizer (UBSan): detecta comportamientos indefinidos (overflow con signo, división por cero en enteros, shift inválidos, punteros mal alineados, violaciones de tipo, etc.).
+
+- ThreadSanitizer (TSan): detecta data races y errores de sincronización en programas multihilo.
+
+- MemorySanitizer (MSan): detecta uso de memoria no inicializada (uninitialized reads). Requiere instrumentar todas las dependencias.
+
+- Valgrind/Memcheck: sin recompilar con sanitizers, intercepta asignaciones y accesos para detectar overflows en heap, use-after-free, dobles free y fugas. También da orígenes de datos (track-origins) para lecturas no inicializadas. Suele ser más lento que ASan, pero muy útil cuando no puedes recompilar todo.
+
+### 1 ¿Qué tipo de error detectó AddressSanitizer primero?
+heap-buffer-overflow (escritura fuera de los límites del buffer en el heap) al copiar n + 1 bytes en un bloque reservado con solo n bytes.
+
+### 2 ¿Cuál fue la causa de la fuga de memoria?
+Se reservó memoria (por ejemplo, malloc(128)) y nunca se liberó con free(...) antes de terminar el programa; Valgrind la reportó como definitely lost.
+
+### 3 ¿Por qué es importante compilar con la opción -g?
+Porque añade símbolos de depuración (archivos, líneas, nombres de funciones/variables), permitiendo que gdb, ASan y Valgrind muestren exactamente dónde ocurre el fallo y produzcan trazas legibles para corregir rápidamente el problema.
+
+
+En la programación concurrente, los errores relacionados con la sincronización —como las condiciones de carrera (data races)— pueden generar comportamientos impredecibles y difíciles de reproducir. Para detectarlos, existen herramientas de análisis dinámico como ThreadSanitizer y Helgrind, que permiten examinar el acceso concurrente a la memoria y los mecanismos de sincronización utilizados por un programa multihilo.
+
+**ThreadSanitizer** es una herramienta desarrollada por Google que forma parte del compilador Clang/LLVM y GCC.
+Su función principal es detectar condiciones de carrera, bloqueos incorrectos y accesos simultáneos no protegidos a variables compartidas durante la ejecución del programa.
+
+- Se ejecuta junto con el binario instrumentado con -fsanitize=thread.
+
+- Analiza en tiempo real los accesos de lectura y escritura en memoria.
+
+- Indica el origen de los hilos involucrados, las líneas de código conflictivas y el tipo de acceso detectado.
+
+**Helgrind** es una herramienta del conjunto Valgrind, diseñada para detectar errores de sincronización en programas con múltiples hilos (como condiciones de carrera, bloqueos no balanceados y uso incorrecto de mutexes).
+
+- Supervisa todas las operaciones de memoria y sincronización del programa.
+
+- Detecta accesos simultáneos a memoria compartida sin exclusión mutua.
+
+- Aunque es muy precisa, tiene un alto costo en tiempo de ejecución, ya que instrumenta cada instrucción y operación de memoria del programa.
+
+### 1. ¿Qué tipo de acceso detecta ThreadSanitizer como data race?
+
+ThreadSanitizer detecta una condición de carrera (data race) cuando dos o más hilos acceden simultáneamente a la misma variable compartida, y al menos uno de esos accesos es de escritura, sin estar protegidos por mecanismos de sincronización (como std::mutex o std::atomic).
+
+### 2. ¿Por qué Helgrind tiene un mayor costo de ejecución?
+
+Helgrind presenta un mayor costo de ejecución porque instrumenta todas las operaciones de memoria y sincronización del programa, simulando su comportamiento interno para verificar dependencias entre hilos.
+
+En concreto:
+
+- Supervisa cada lectura y escritura en memoria.
+
+- Mantiene un historial detallado de los bloqueos (mutex, join, wait, etc.).
+
+Evalúa las relaciones de orden y exclusión mutua entre hilos. Esto implica un gran consumo de CPU y memoria, ralentizando el programa entre 10 y 50 veces. A cambio, proporciona una detección muy precisa de errores de concurrencia complejos.
+
+### 3. ¿Qué ventajas tiene usar std::atomic frente a std::mutex?
+
+std::atomic permite realizar operaciones seguras entre hilos sin necesidad de bloqueos explícitos, usando instrucciones atómicas de hardware.
+En cambio, std::mutex bloquea completamente una sección crítica hasta que el hilo termine su tarea.
+
+**Comparación entre `std::atomic` y `std::mutex`** 
+
+| **Característica** | **`std::atomic`** | **`std::mutex`** |
+|----------------------|-------------------|------------------|
+| **Tipo de sincronización** | No bloqueante (*lock-free* en la mayoría de los casos) | Bloqueante (requiere adquirir y liberar el candado) |
+| **Costo de ejecución** | Bajo (usa instrucciones atómicas del CPU) | Alto (implica cambio de contexto entre hilos) |
+| **Uso recomendado** | Operaciones simples sobre variables individuales (contadores, flags, punteros) | Secciones críticas más grandes o estructuras de datos complejas |
+| **Riesgo de *deadlock*** | Ninguno | Posible si no se libera correctamente el bloqueo |
+| **Rendimiento** | Alto, ideal para tareas concurrentes ligeras | Medio o bajo, depende del número de hilos y bloqueos |
+| **Complejidad de uso** | Sencillo para operaciones básicas | Mayor complejidad, requiere cuidado con los bloqueos |
+| **Ejemplo típico** | `std::atomic<int> counter{0}; counter++;` | `std::mutex mtx; std::lock_guard<std::mutex> lock(mtx); counter++;` |
