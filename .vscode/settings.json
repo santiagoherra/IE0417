@@ -1,3 +1,7 @@
 {
-    "C_Cpp.default.compilerPath": "C:/msys64/ucrt64/bin/g++.exe"
+    "C_Cpp.default.compilerPath": "C:/msys64/ucrt64/bin/g++.exe",
+    "C_Cpp.default.includePath": [
+        "C:/msys64/ucrt64/include"
+    ],
+    "C_Cpp.default.intelliSenseMode": "gcc-x64"
 }
