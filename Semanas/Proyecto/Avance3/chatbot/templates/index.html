@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Chatbot Widget</title>
+    <link rel="stylesheet" href="../static/chatbot/css/chatbot.css" />
+</head>
+<body>
+    <!-- Chatbot widget (bottom-right) -->
+    <div id="chatbot-widget" aria-hidden="true">
+        <button id="chatbot-toggle" aria-label="Open chat">💬</button>
+
+        <div id="chatbot-panel" role="dialog" aria-label="Chat" aria-hidden="true">
+            <header class="chatbot-header">
+                <div class="chatbot-title">Asistente EIEinfo</div>
+                <button id="chatbot-close" aria-label="Close chat">✕</button>
+            </header>
+
+            <main id="chatbot-body" class="chatbot-body" aria-live="polite">
+                <ul id="chatbot-messages" class="chatbot-messages"></ul>
+                <div id="chatbot-typing" class="chatbot-typing" hidden>
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../static/chatbot/js/chatbot.js" defer></script>
+</body>
+</html>
