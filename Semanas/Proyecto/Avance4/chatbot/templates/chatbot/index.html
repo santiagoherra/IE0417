@@ -1,0 +1,21 @@
+{% load static %}
+<!-- Chatbot widget -->
+<link rel="stylesheet" href="{% static 'chatbot/css/chatbot.css' %}">
+<div id="chatbot-widget" aria-hidden="true">
+    <button id="chatbot-toggle" type="button" aria-label="Open chat">💬</button>
+
+    <div id="chatbot-panel" role="dialog" aria-label="Chat" aria-hidden="true">
+        <header class="chatbot-header">
+            <div class="chatbot-title">Asistente EIEinfo</div>
+            <button id="chatbot-close" type="button" aria-label="Close chat">✕</button>
+        </header>
+
+        <main id="chatbot-body" class="chatbot-body" aria-live="polite">
+            <ul id="chatbot-messages" class="chatbot-messages"></ul>
+            <div id="chatbot-typing" class="chatbot-typing" hidden>
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="{% static 'chatbot/js/chatbot.js' %}" defer></script>
